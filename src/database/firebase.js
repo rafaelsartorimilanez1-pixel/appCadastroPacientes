@@ -1,9 +1,8 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
-import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+import { initializeApp } from "firebase/app";
+import { getDatabase } from "firebase/database";
 
-// Configuração do Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyA-_6qhSbSfNdP1h1kwl9RVVuI0M4KbiHM",
+    apiKey: "SUA_KEY",
     authDomain: "app-pacientes-f9355.firebaseapp.com",
     projectId: "app-pacientes-f9355",
     storageBucket: "app-pacientes-f9355.firebasestorage.app",
@@ -11,13 +10,7 @@ const firebaseConfig = {
     appId: "1:414697857997:web:5b5baca12bb93dbdf6da84"
 };
 
-// Inicializa o app
 const app = initializeApp(firebaseConfig);
-
-// Inicializa o banco
 const database = getDatabase(app);
 
-// Referência raiz
-const dbRef = ref(database);
-
-export { database, dbRef };
+export { database };

@@ -1,14 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import personIcon from '../icons/person.svg'
 import phoneIcon from '../icons/phone.svg'
 import envelopeIcon from '../icons/envelope.svg'
 
 const FormularioCadastro = (props) => {
-
-    //Variaves de captura de dados
-
-
 
     const camposIniciaisDeValores = {
         nomeCompleto: '',
@@ -17,10 +13,20 @@ const FormularioCadastro = (props) => {
         endereco: ''
     }
 
-    let [values, setValues] = React.useState(camposIniciaisDeValores);
+    const [values, setValues] = useState(camposIniciaisDeValores)
+
+    useEffect(() => {
+        if (props.idAtual === '') {
+            setValues(camposIniciaisDeValores)
+        } else if (props.dadosPacientes[props.idAtual]) {
+            setValues({
+                ...props.dadosPacientes[props.idAtual]
+            })
+        }
+    }, [props.idAtual, props.dadosPacientes])
 
     const handleChange = (e) => {
-        let { name, value } = e.target
+        const { name, value } = e.target
 
         setValues({
             ...values,
@@ -30,36 +36,35 @@ const FormularioCadastro = (props) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
-        props.addEdit(values)
+        props.addEdit(values, props.idAtual)
     }
 
     return (
         <form autoComplete='off' onSubmit={handleFormSubmit}>
             <div className='form-group input-group'>
                 <div className='input-group-text'>
-                    <img src={personIcon} alt="person icon" />
+                    <img src={personIcon} alt="" />
                 </div>
 
-                <input className='form-control'
-                    placeholder='nome completo'
+                <input
+                    className='form-control'
+                    placeholder='Nome completo'
                     name="nomeCompleto"
                     value={values.nomeCompleto}
-                    onChange={handleChange} />
+                    onChange={handleChange}
+                />
             </div>
 
-
-
             <div className='row'>
-
                 <div className='col-md-6'>
                     <div className='input-group mb-3'>
                         <div className='input-group-text'>
-                            <img src={phoneIcon} alt="phone icon" />
+                            <img src={phoneIcon} alt="" />
                         </div>
 
                         <input
                             className='form-control'
-                            placeholder='telefone'
+                            placeholder='Telefone'
                             name="telefone"
                             value={values.telefone}
                             onChange={handleChange}
@@ -70,26 +75,28 @@ const FormularioCadastro = (props) => {
                 <div className='col-md-6'>
                     <div className='input-group mb-3'>
                         <div className='input-group-text'>
-                            <img src={envelopeIcon} alt="evenlope icon" />
+                            <img src={envelopeIcon} alt="" />
                         </div>
 
                         <input
                             className='form-control'
-                            placeholder='email'
+                            placeholder='Email'
                             name="email"
                             value={values.email}
                             onChange={handleChange}
                         />
                     </div>
                 </div>
-
             </div>
 
             <div className='form-group'>
-                <input type="submit" value="Save" className='btn btn-primary btn-block'></input>
+                <input
+                    type="submit"
+                    value={props.idAtual === '' ? 'Salvar' : 'Editar'}
+                    className='btn btn-primary btn-block'
+                />
             </div>
-
-        </form >
+        </form>
     )
 }
 

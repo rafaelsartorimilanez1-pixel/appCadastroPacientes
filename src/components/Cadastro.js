@@ -1,36 +1,54 @@
 import React, { useState, useEffect } from 'react'
 import FormularioCadastro from './FormularioCadastro'
 import { database } from '../database/firebase'
-import { ref, push, onValue } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+import { ref, push, update, onValue } from "firebase/database";
+import pencil from '../icons/pencil.svg'
+import xcircle from '../icons/xcircle.svg'
 
 const Cadastro = () => {
 
-    let [dadosPacientes, setDadosPacientes] = useState({})
+    const [dadosPacientes, setDadosPacientes] = useState({})
+    const [idAtual, setIdAtual] = useState('')
 
     useEffect(() => {
         const pacientesRef = ref(database, 'pacientes')
 
-        onValue(pacientesRef, (snapshot) => {
+        const unsubscribe = onValue(pacientesRef, (snapshot) => {
             if (snapshot.val() != null) {
-                setDadosPacientes({
-                    ...snapshot.val()
-                });
+                setDadosPacientes(snapshot.val())
             } else {
-                setDadosPacientes({});
+                setDadosPacientes({})
             }
-        });
-    }, []);
+        })
 
-    const addEdit = obj => {
-        const pacientesRef = ref(database, 'pacientes');
+        return () => unsubscribe()
+    }, [])
 
-        push(pacientesRef, obj)
-            .then(() => {
-                console.log("Salvo com sucesso");
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    const addEdit = (obj, idAtual) => {
+        const pacientesRef = ref(database, 'pacientes')
+
+        const dadosLimpos = {
+            nomeCompleto: obj.nomeCompleto || '',
+            telefone: obj.telefone || '',
+            email: obj.email || '',
+            endereco: obj.endereco || ''
+        }
+
+        if (idAtual === '') {
+            push(pacientesRef, dadosLimpos)
+                .then(() => {
+                    setIdAtual('')
+                })
+                .catch(console.log)
+        } else {
+            const pacienteRef = ref(database, `pacientes/${idAtual}`)
+
+            update(pacienteRef, dadosLimpos)
+                .then(() => {
+                    setIdAtual('')
+                })
+                .catch(console.log)
+        }
     }
 
     return (
@@ -43,32 +61,45 @@ const Cadastro = () => {
 
             <div className='row'>
                 <div className='col-md-5'>
-                    <FormularioCadastro addEdit={addEdit} />
+                    <FormularioCadastro
+                        addEdit={addEdit}
+                        idAtual={idAtual}
+                        dadosPacientes={dadosPacientes}
+                    />
                 </div>
 
                 <div className='col-md-7'>
-                    <table className='table table-bordeless table-stripped'>
-                        <thead className='thead-light'>
+                    <table className='table table-bordeless table-striped'>
+                        <thead>
                             <tr>
-                                <td>Nome completo</td>
+                                <td>Nome</td>
                                 <td>Telefone</td>
                                 <td>Email</td>
+                                <td>Ações</td>
                             </tr>
                         </thead>
 
                         <tbody>
-                            {
-                                Object.keys(dadosPacientes).map(id => {
-                                    return (
-                                        <tr key={id}>
-                                            <td> {dadosPacientes[id].nomeCompleto}</td>
-                                            <td> {dadosPacientes[id].telefone}</td>
-                                            <td> {dadosPacientes[id].email}</td>
+                            {Object.keys(dadosPacientes).map(id => (
+                                <tr key={id}>
+                                    <td>{dadosPacientes[id].nomeCompleto}</td>
+                                    <td>{dadosPacientes[id].telefone}</td>
+                                    <td>{dadosPacientes[id].email}</td>
 
-                                        </tr>
-                                    )
-                                })
-                            }
+                                    <td>
+                                        <button
+                                            className='btn btn-primary'
+                                            onClick={() => setIdAtual(id)}
+                                        >
+                                            <img src={pencil} alt="edit" />
+                                        </button>
+
+                                        <button className='btn btn-danger'>
+                                            <img src={xcircle} alt="delete" />
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                 </div>
