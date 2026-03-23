@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import FormularioCadastro from './FormularioCadastro'
 import { database } from '../database/firebase'
-import { ref, push, update, onValue } from "firebase/database";
+import { ref, push, update, onValue, remove } from "firebase/database";
 import pencil from '../icons/pencil.svg'
 import xcircle from '../icons/xcircle.svg'
 
@@ -51,6 +51,21 @@ const Cadastro = () => {
         }
     }
 
+    const deletePaciente = (key) => {
+        if (window.confirm('Deseja realmente deletar esse cadastro?')) {
+
+            const pacienteRef = ref(database, `pacientes/${key}`);
+
+            remove(pacienteRef)
+                .then(() => {
+                    console.log("Deletado com sucesso");
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
+
     return (
         <div>
             <div className="p-5 mb-4 bg-light rounded-3">
@@ -94,7 +109,7 @@ const Cadastro = () => {
                                             <img src={pencil} alt="edit" />
                                         </button>
 
-                                        <button className='btn btn-danger'>
+                                        <button className='btn btn-danger' onClick={() => deletePaciente(id)}>
                                             <img src={xcircle} alt="delete" />
                                         </button>
                                     </td>
