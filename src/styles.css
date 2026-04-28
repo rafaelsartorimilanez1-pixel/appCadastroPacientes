@@ -1,0 +1,80 @@
+/* Reset leve */
+body {
+  background-color: #f5f7fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+/* Container principal */
+.container-custom {
+  max-width: 1000px;
+  margin: 40px auto;
+}
+
+/* Cards */
+.card-custom {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Inputs */
+.form-control {
+  border-radius: 8px;
+  padding: 10px;
+}
+
+/* Botão principal */
+.btn-primary {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.03);
+}
+
+/* Botões de ação */
+.btn-danger, .btn-primary {
+  border: none;
+}
+
+/* Tabela */
+.table {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #f1f3f5;
+  font-weight: 500;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* Ícones nos botões */
+button img {
+  width: 16px;
+}
+
+/* Espaçamento entre botões */
+td button {
+  margin-right: 5px;
+}
+
+/* Input group */
+.input-group-text {
+  background: #f1f3f5;
+  border-radius: 8px 0 0 8px;
+}
