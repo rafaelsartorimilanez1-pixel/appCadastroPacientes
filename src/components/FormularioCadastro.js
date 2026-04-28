@@ -4,39 +4,45 @@ import personIcon from '../icons/person.svg'
 import phoneIcon from '../icons/phone.svg'
 import envelopeIcon from '../icons/envelope.svg'
 
+const camposIniciaisDeValores = {
+    nomeCompleto: '',
+    telefone: '',
+    email: '',
+    endereco: ''
+}
+
 const FormularioCadastro = (props) => {
 
-    const camposIniciaisDeValores = {
-        nomeCompleto: '',
-        telefone: '',
-        email: '',
-        endereco: ''
-    }
-
+    // Estado que controla os valores dos inputs
     const [values, setValues] = useState(camposIniciaisDeValores)
 
+    // useEffect para atualizar o formulário quando um paciente é selecionado para edição
     useEffect(() => {
         if (props.idAtual === '') {
+            // Se não há ID selecionado, limpa o formulário
             setValues(camposIniciaisDeValores)
         } else if (props.dadosPacientes[props.idAtual]) {
+            // Se há um paciente selecionado, preenche o formulário com os dados dele
             setValues({
                 ...props.dadosPacientes[props.idAtual]
             })
         }
     }, [props.idAtual, props.dadosPacientes])
 
+    // Função para atualizar o estado conforme o usuário digita
     const handleChange = (e) => {
         const { name, value } = e.target
 
         setValues({
             ...values,
-            [name]: value
+            [name]: value // atualiza dinamicamente o campo correto
         })
     }
 
+    // Função chamada ao enviar o formulário
     const handleFormSubmit = (e) => {
-        e.preventDefault()
-        props.addEdit(values, props.idAtual)
+        e.preventDefault() // evita reload da página
+        props.addEdit(values, props.idAtual) // envia os dados para o componente pai
     }
 
     return (
@@ -51,7 +57,7 @@ const FormularioCadastro = (props) => {
                     placeholder='Nome completo'
                     name="nomeCompleto"
                     value={values.nomeCompleto}
-                    onChange={handleChange}
+                    onChange={handleChange} // controla o input
                 />
             </div>
 
@@ -92,6 +98,7 @@ const FormularioCadastro = (props) => {
             <div className='form-group'>
                 <input
                     type="submit"
+                    // Altera o texto do botão dependendo se está criando ou editando
                     value={props.idAtual === '' ? 'Salvar' : 'Editar'}
                     className='btn btn-primary btn-block'
                 />

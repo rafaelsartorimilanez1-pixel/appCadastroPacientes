@@ -1,16 +1,21 @@
 import { initializeApp } from "firebase/app";
 import { getDatabase } from "firebase/database";
 
+// Configuração usando variáveis de ambiente (.env)
 const firebaseConfig = {
-    apiKey: "SUA_KEY",
-    authDomain: "app-pacientes-f9355.firebaseapp.com",
-    projectId: "app-pacientes-f9355",
-    storageBucket: "app-pacientes-f9355.firebasestorage.app",
-    messagingSenderId: "414697857997",
-    appId: "1:414697857997:web:5b5baca12bb93dbdf6da84"
+    apiKey: process.env.REACT_APP_API_KEY,
+    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_APP_ID
 };
 
+// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
+
+// Inicializa o banco de dados
 const database = getDatabase(app);
 
+// Exporta o database
 export { database };
