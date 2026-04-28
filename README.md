@@ -26,7 +26,7 @@ Aplicação web desenvolvida com React e Firebase para gerenciamento de paciente
 Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
+git clone https://github.com/rafaelsartorimilanez1-pixel/appCadastroPacientes
 ```
 
 Instale as dependências:
@@ -56,15 +56,10 @@ npm start
 
 ## 🌐 Deploy
 
-O projeto pode ser hospedado facilmente na Vercel ou Netlify.
+Link do Vercel: https://app-cadastro-pacientes.vercel.app/
 
 ---
 
-## 📷 Preview
-
-*(adicione aqui uma imagem ou GIF do projeto rodando)*
-
----
 
 ## 📌 Sobre o projeto
 
